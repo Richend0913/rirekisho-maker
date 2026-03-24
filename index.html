@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>履歴書メーカー｜無料で作成・PDF出力</title>
+  <meta name="description" content="履歴書・職務経歴書を無料で作成。JIS規格の標準フォーマットでPDF出力。スマホ対応、自動保存機能付き。">
+  <meta name="keywords" content="履歴書 作成 無料, 履歴書 テンプレート, 職務経歴書 書き方, 履歴書 PDF, 職務経歴書 テンプレート">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://richend0913.github.io/rirekisho-maker/">
+  <meta property="og:title" content="履歴書メーカー｜無料で作成・PDF出力">
+  <meta property="og:description" content="履歴書・職務経歴書を無料で作成。プロ品質のPDFをダウンロード。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://richend0913.github.io/rirekisho-maker/">
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "履歴書メーカー",
+    "description": "履歴書・職務経歴書を無料で作成し、PDF出力できるWebツール",
+    "url": "https://richend0913.github.io/rirekisho-maker/",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "980",
+      "priceCurrency": "JPY",
+      "description": "PDF出力機能"
+    },
+    "featureList": [
+      "履歴書作成",
+      "職務経歴書作成",
+      "PDF出力",
+      "JIS規格フォーマット",
+      "自動保存",
+      "スマホ対応"
+    ]
+  }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6327505164684489" crossorigin="anonymous"></script>
+
+  <!-- jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js"></script>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Header -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="site-logo">
+      履歴書メーカー
+      <small>プロ品質の履歴書を簡単作成</small>
+    </div>
+    <div class="header-badge">&#x00a5;980でPDFダウンロード</div>
+  </div>
+</header>
+
+<!-- Progress Bar -->
+<div class="progress-container">
+  <div class="progress-inner">
+    <div class="progress-steps">
+      <div class="progress-fill-track" id="progressFill"></div>
+      <div class="step-indicator active" data-step="1" onclick="goToStep(1)">
+        <div class="step-circle">1</div>
+        <div class="step-label">基本情報</div>
+      </div>
+      <div class="step-indicator" data-step="2" onclick="goToStep(2)">
+        <div class="step-circle">2</div>
+        <div class="step-label">学歴・職歴</div>
+      </div>
+      <div class="step-indicator" data-step="3" onclick="goToStep(3)">
+        <div class="step-circle">3</div>
+        <div class="step-label">資格・志望動機</div>
+      </div>
+      <div class="step-indicator" data-step="4" onclick="goToStep(4)">
+        <div class="step-circle">4</div>
+        <div class="step-label">プレビュー</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main class="main-container">
+
+  <!-- Ad Banner Top -->
+  <div class="ad-banner">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6327505164684489" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <!-- Document Type Tabs -->
+  <div class="doc-tabs">
+    <button class="doc-tab active" data-doc="rirekisho" onclick="switchDoc('rirekisho')">履歴書</button>
+    <button class="doc-tab" data-doc="shokumu" onclick="switchDoc('shokumu')">職務経歴書</button>
+  </div>
+
+  <!-- ============ 履歴書 FORM ============ -->
+  <div id="rirekisho-form">
+
+    <!-- Step 1: 基本情報 -->
+    <div class="form-step active" data-step="1">
+      <div class="form-card">
+        <h2>基本情報</h2>
+        <p class="section-desc">履歴書に記載する基本的な個人情報を入力してください。</p>
+
+        <div style="display:flex; gap:24px; flex-wrap:wrap;">
+          <div style="flex:1; min-width:300px;">
+            <div class="form-row">
+              <div class="form-group">
+                <label>氏名 <span class="required">必須</span></label>
+                <input type="text" id="r-name" placeholder="山田 太郎">
+              </div>
+              <div class="form-group">
+                <label>ふりがな <span class="required">必須</span></label>
+                <input type="text" id="r-furigana" placeholder="やまだ たろう">
+              </div>
+            </div>
+
+            <div class="form-row three-col">
+              <div class="form-group">
+                <label>生年月日 <span class="required">必須</span></label>
+                <input type="date" id="r-birthday">
+              </div>
+              <div class="form-group">
+                <label>年齢</label>
+                <input type="text" id="r-age" readonly placeholder="自動計算">
+              </div>
+              <div class="form-group">
+                <label>性別</label>
+                <select id="r-gender">
+                  <option value="">選択してください</option>
+                  <option value="男">男</option>
+                  <option value="女">女</option>
+                  <option value="その他">その他</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>住所 <span class="required">必須</span></label>
+              <input type="text" id="r-address" placeholder="東京都渋谷区...">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>電話番号</label>
+                <input type="tel" id="r-phone" placeholder="090-1234-5678">
+              </div>
+              <div class="form-group">
+                <label>メールアドレス</label>
+                <input type="email" id="r-email" placeholder="example@email.com">
+              </div>
+            </div>
+          </div>
+
+          <div style="flex:0 0 auto;">
+            <div class="form-group">
+              <label>写真（任意）</label>
+              <div class="photo-upload-area" id="photoUploadArea" onclick="document.getElementById('photoInput').click()">
+                <div class="placeholder" id="photoPlaceholder">
+                  <span class="cam-icon">&#128247;</span>
+                  クリックして<br>写真をアップロード<br><small>縦4:3推奨</small>
+                </div>
+                <img id="photoPreview" style="display:none;" alt="証明写真">
+              </div>
+              <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="handlePhotoUpload(event)">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <div></div>
+        <button class="btn btn-primary" onclick="goToStep(2)">次へ：学歴・職歴 &#8594;</button>
+      </div>
+    </div>
+
+    <!-- Step 2: 学歴・職歴 -->
+    <div class="form-step" data-step="2">
+      <div class="form-card">
+        <h2>学歴</h2>
+        <p class="section-desc">最終学歴から順に記入してください。</p>
+        <div class="dynamic-section" id="education-rows">
+          <!-- rows added by JS -->
+        </div>
+        <button class="btn-add-row" onclick="addEducationRow()">+ 学歴を追加</button>
+      </div>
+
+      <div class="form-card">
+        <h2>職歴</h2>
+        <p class="section-desc">直近の職歴から順に記入してください。</p>
+        <div class="dynamic-section" id="work-rows">
+          <!-- rows added by JS -->
+        </div>
+        <button class="btn-add-row" onclick="addWorkRow()">+ 職歴を追加</button>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn btn-secondary" onclick="goToStep(1)">&#8592; 戻る</button>
+        <button class="btn btn-primary" onclick="goToStep(3)">次へ：資格・志望動機 &#8594;</button>
+      </div>
+    </div>
+
+    <!-- Step 3: 資格・志望動機 -->
+    <div class="form-step" data-step="3">
+      <div class="form-card">
+        <h2>免許・資格</h2>
+        <p class="section-desc">取得した免許や資格を記入してください。</p>
+        <div class="dynamic-section" id="license-rows">
+          <!-- rows added by JS -->
+        </div>
+        <button class="btn-add-row" onclick="addLicenseRow()">+ 免許・資格を追加</button>
+      </div>
+
+      <div class="form-card">
+        <h2>志望動機</h2>
+        <p class="section-desc">応募先への志望動機を記入してください。</p>
+        <div class="form-group">
+          <textarea id="r-motivation" rows="5" placeholder="貴社の事業内容に共感し..."></textarea>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h2>本人希望欄</h2>
+        <div class="form-group">
+          <textarea id="r-wishes" rows="3" placeholder="特に希望がなければ「貴社の規定に従います」とご記入ください。"></textarea>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h2>配偶者の有無</h2>
+        <div class="radio-group">
+          <label><input type="radio" name="r-spouse" value="有"> 有</label>
+          <label><input type="radio" name="r-spouse" value="無" checked> 無</label>
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn btn-secondary" onclick="goToStep(2)">&#8592; 戻る</button>
+        <button class="btn btn-primary" onclick="goToStep(4)">プレビューを確認 &#8594;</button>
+      </div>
+    </div>
+
+    <!-- Step 4: Preview & Download -->
+    <div class="form-step" data-step="4">
+      <div class="preview-container">
+        <div class="preview-header">
+          <h3>履歴書プレビュー</h3>
+          <button class="btn btn-secondary" onclick="goToStep(1)" style="padding:6px 16px; font-size:0.85rem;">編集に戻る</button>
+        </div>
+        <div class="preview-body" id="rirekisho-preview">
+          <!-- filled by JS -->
+        </div>
+      </div>
+
+      <div class="payment-cta">
+        <h3>履歴書のPDFをダウンロード</h3>
+        <p>プロ品質の履歴書PDFを今すぐ手に入れましょう</p>
+        <div class="price">&#x00a5;980 <small>（税込・買い切り）</small></div>
+        <ul class="features-list">
+          <li>JIS規格の標準履歴書フォーマット</li>
+          <li>高品質PDF出力</li>
+          <li>職務経歴書も同時作成可能</li>
+          <li>何度でもダウンロード可能</li>
+        </ul>
+        <div>
+          <a href="#payment" class="btn-pay" id="payBtn">&#128179; PDFをダウンロード（¥980）</a>
+        </div>
+        <div class="download-actions">
+          <button class="btn btn-success btn-lg" onclick="downloadRirekishoPDF()">&#128196; PDF出力（履歴書）</button>
+          <button class="btn btn-warning btn-lg" onclick="printRirekisho()">&#128424; ブラウザで印刷</button>
+        </div>
+        <p style="margin-top:12px; font-size:0.8rem; opacity:0.8;">PDFの日本語表示にはブラウザの印刷機能もご利用いただけます</p>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn btn-secondary" onclick="goToStep(3)">&#8592; 戻る</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 職務経歴書 FORM ============ -->
+  <div id="shokumu-form" style="display:none;">
+
+    <div class="form-step active" data-step="1">
+      <div class="form-card">
+        <h2>職務要約</h2>
+        <p class="section-desc">これまでのキャリアを3〜5行で簡潔にまとめてください。</p>
+        <div class="form-group">
+          <textarea id="s-summary" rows="5" placeholder="大学卒業後、○○株式会社にて営業職として5年間従事..."></textarea>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h2>職歴詳細</h2>
+        <p class="section-desc">経験した企業ごとに詳細を記入してください。</p>
+        <div id="career-cards">
+          <!-- career cards added by JS -->
+        </div>
+        <button class="btn-add-row" onclick="addCareerCard()">+ 会社を追加</button>
+      </div>
+
+      <div class="form-nav">
+        <div></div>
+        <button class="btn btn-primary" onclick="goToShokumuStep(2)">次へ：スキル・自己PR &#8594;</button>
+      </div>
+    </div>
+
+    <div class="form-step" data-step="2">
+      <div class="form-card">
+        <h2>スキル・資格</h2>
+        <p class="section-desc">保有するスキルや資格を記入してください。</p>
+        <div class="form-group">
+          <textarea id="s-skills" rows="5" placeholder="・TOEIC 800点&#10;・日商簿記2級&#10;・普通自動車免許"></textarea>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h2>自己PR</h2>
+        <p class="section-desc">あなたの強みや実績をアピールしてください。</p>
+        <div class="form-group">
+          <textarea id="s-pr" rows="6" placeholder="前職では新規顧客開拓に注力し..."></textarea>
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn btn-secondary" onclick="goToShokumuStep(1)">&#8592; 戻る</button>
+        <button class="btn btn-primary" onclick="goToShokumuStep(3)">プレビューを確認 &#8594;</button>
+      </div>
+    </div>
+
+    <div class="form-step" data-step="3">
+      <div class="preview-container">
+        <div class="preview-header">
+          <h3>職務経歴書プレビュー</h3>
+          <button class="btn btn-secondary" onclick="goToShokumuStep(1)" style="padding:6px 16px; font-size:0.85rem;">編集に戻る</button>
+        </div>
+        <div class="preview-body" id="shokumu-preview">
+          <!-- filled by JS -->
+        </div>
+      </div>
+
+      <div class="payment-cta">
+        <h3>職務経歴書のPDFをダウンロード</h3>
+        <div class="price">&#x00a5;980 <small>（税込・買い切り）</small></div>
+        <div>
+          <a href="#payment" class="btn-pay">&#128179; PDFをダウンロード（¥980）</a>
+        </div>
+        <div class="download-actions">
+          <button class="btn btn-success btn-lg" onclick="downloadShokumuPDF()">&#128196; PDF出力（職務経歴書）</button>
+          <button class="btn btn-warning btn-lg" onclick="printShokumu()">&#128424; ブラウザで印刷</button>
+        </div>
+        <p style="margin-top:12px; font-size:0.8rem; opacity:0.8;">PDFの日本語表示にはブラウザの印刷機能もご利用いただけます</p>
+      </div>
+
+      <div class="form-nav">
+        <button class="btn btn-secondary" onclick="goToShokumuStep(2)">&#8592; 戻る</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ad Banner Bottom -->
+  <div class="ad-banner" style="margin-top:24px;">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6327505164684489" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+</main>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <p>&copy; 2026 履歴書メーカー All Rights Reserved.</p>
+  <p style="margin-top:8px;">
+    <a href="#">プライバシーポリシー</a> ・
+    <a href="#">特定商取引法に基づく表記</a> ・
+    <a href="#">お問い合わせ</a>
+  </p>
+</footer>
+
+<!-- Auto-save indicator -->
+<div class="autosave-indicator" id="autosaveIndicator">自動保存しました</div>
+
+<script>
+// ============================================
+// 履歴書メーカー - Main Application Script
+// ============================================
+
+let currentStep = 1;
+let currentDoc = 'rirekisho';
+let shokumuStep = 1;
+let photoDataURL = null;
+
+// ---- Initialization ----
+document.addEventListener('DOMContentLoaded', function() {
+  addEducationRow();
+  addEducationRow();
+  addWorkRow();
+  addLicenseRow();
+  addCareerCard();
+  loadFromStorage();
+  setupAutoSave();
+  setupBirthdayCalc();
+});
+
+// ---- Step Navigation ----
+function goToStep(step) {
+  if (currentDoc === 'rirekisho') {
+    saveToStorage();
+    currentStep = step;
+    const steps = document.querySelectorAll('#rirekisho-form .form-step');
+    steps.forEach(s => s.classList.remove('active'));
+    steps[step - 1].classList.add('active');
+    updateProgress(step, 4);
+    if (step === 4) renderRirekishoPreview();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function goToShokumuStep(step) {
+  saveToStorage();
+  shokumuStep = step;
+  const steps = document.querySelectorAll('#shokumu-form .form-step');
+  steps.forEach(s => s.classList.remove('active'));
+  steps[step - 1].classList.add('active');
+  updateProgress(step, 3);
+  if (step === 3) renderShokumuPreview();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateProgress(step, total) {
+  const indicators = document.querySelectorAll('.step-indicator');
+  const fill = document.getElementById('progressFill');
+  indicators.forEach((ind, i) => {
+    ind.classList.remove('active', 'completed');
+    if (i + 1 < step) ind.classList.add('completed');
+    if (i + 1 === step) ind.classList.add('active');
+  });
+  const pct = ((step - 1) / (total - 1)) * 90;
+  fill.style.width = pct + '%';
+}
+
+function switchDoc(doc) {
+  currentDoc = doc;
+  document.querySelectorAll('.doc-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`[data-doc="${doc}"]`).classList.add('active');
+  if (doc === 'rirekisho') {
+    document.getElementById('rirekisho-form').style.display = '';
+    document.getElementById('shokumu-form').style.display = 'none';
+    updateProgress(currentStep, 4);
+  } else {
+    document.getElementById('rirekisho-form').style.display = 'none';
+    document.getElementById('shokumu-form').style.display = '';
+    updateProgress(shokumuStep, 3);
+  }
+}
+
+// ---- Birthday / Age Calc ----
+function setupBirthdayCalc() {
+  document.getElementById('r-birthday').addEventListener('change', function() {
+    const bd = new Date(this.value);
+    if (isNaN(bd)) return;
+    const today = new Date();
+    let age = today.getFullYear() - bd.getFullYear();
+    const m = today.getMonth() - bd.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < bd.getDate())) age--;
+    document.getElementById('r-age').value = age + '歳';
+  });
+}
+
+// ---- Photo Upload ----
+function handlePhotoUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    photoDataURL = ev.target.result;
+    document.getElementById('photoPreview').src = photoDataURL;
+    document.getElementById('photoPreview').style.display = 'block';
+    document.getElementById('photoPlaceholder').style.display = 'none';
+    saveToStorage();
+  };
+  reader.readAsDataURL(file);
+}
+
+// ---- Dynamic Rows: Education ----
+function addEducationRow(data) {
+  const container = document.getElementById('education-rows');
+  const row = document.createElement('div');
+  row.className = 'dynamic-row';
+  row.innerHTML = `
+    <div class="form-group narrow">
+      <label>年</label>
+      <input type="text" class="edu-year" placeholder="2020" value="${data?.year||''}">
+    </div>
+    <div class="form-group narrow">
+      <label>月</label>
+      <input type="text" class="edu-month" placeholder="3" value="${data?.month||''}">
+    </div>
+    <div class="form-group">
+      <label>学校名</label>
+      <input type="text" class="edu-school" placeholder="○○大学 ○○学部" value="${data?.school||''}">
+    </div>
+    <div class="form-group narrow">
+      <label>区分</label>
+      <select class="edu-type">
+        <option value="入学" ${data?.type==='入学'?'selected':''}>入学</option>
+        <option value="卒業" ${data?.type==='卒業'?'selected':''}>卒業</option>
+        <option value="中退" ${data?.type==='中退'?'selected':''}>中退</option>
+        <option value="卒業見込" ${data?.type==='卒業見込'?'selected':''}>卒業見込</option>
+      </select>
+    </div>
+    <div class="form-group action-col">
+      <label>&nbsp;</label>
+      <button class="btn-remove-row" onclick="this.closest('.dynamic-row').remove()">&#10005;</button>
+    </div>
+  `;
+  container.appendChild(row);
+}
+
+// ---- Dynamic Rows: Work ----
+function addWorkRow(data) {
+  const container = document.getElementById('work-rows');
+  const row = document.createElement('div');
+  row.className = 'dynamic-row';
+  row.innerHTML = `
+    <div class="form-group narrow">
+      <label>年</label>
+      <input type="text" class="work-year" placeholder="2020" value="${data?.year||''}">
+    </div>
+    <div class="form-group narrow">
+      <label>月</label>
+      <input type="text" class="work-month" placeholder="4" value="${data?.month||''}">
+    </div>
+    <div class="form-group">
+      <label>会社名</label>
+      <input type="text" class="work-company" placeholder="○○株式会社" value="${data?.company||''}">
+    </div>
+    <div class="form-group narrow">
+      <label>区分</label>
+      <select class="work-type">
+        <option value="入社" ${data?.type==='入社'?'selected':''}>入社</option>
+        <option value="退社" ${data?.type==='退社'?'selected':''}>退社</option>
+        <option value="在職中" ${data?.type==='在職中'?'selected':''}>在職中</option>
+      </select>
+    </div>
+    <div class="form-group action-col">
+      <label>&nbsp;</label>
+      <button class="btn-remove-row" onclick="this.closest('.dynamic-row').remove()">&#10005;</button>
+    </div>
+  `;
+  container.appendChild(row);
+}
+
+// ---- Dynamic Rows: License ----
+function addLicenseRow(data) {
+  const container = document.getElementById('license-rows');
+  const row = document.createElement('div');
+  row.className = 'dynamic-row';
+  row.innerHTML = `
+    <div class="form-group narrow">
+      <label>年</label>
+      <input type="text" class="lic-year" placeholder="2020" value="${data?.year||''}">
+    </div>
+    <div class="form-group narrow">
+      <label>月</label>
+      <input type="text" class="lic-month" placeholder="6" value="${data?.month||''}">
+    </div>
+    <div class="form-group">
+      <label>免許・資格名</label>
+      <input type="text" class="lic-name" placeholder="普通自動車免許 取得" value="${data?.name||''}">
+    </div>
+    <div class="form-group action-col">
+      <label>&nbsp;</label>
+      <button class="btn-remove-row" onclick="this.closest('.dynamic-row').remove()">&#10005;</button>
+    </div>
+  `;
+  container.appendChild(row);
+}
+
+// ---- Career Cards (職務経歴書) ----
+let careerCount = 0;
+function addCareerCard(data) {
+  careerCount++;
+  const container = document.getElementById('career-cards');
+  const card = document.createElement('div');
+  card.className = 'career-card';
+  card.innerHTML = `
+    <h3>勤務先 ${careerCount}</h3>
+    <button class="btn-remove-row btn-remove-career" onclick="this.closest('.career-card').remove()">&#10005;</button>
+    <div class="form-row">
+      <div class="form-group">
+        <label>会社名</label>
+        <input type="text" class="career-company" placeholder="○○株式会社" value="${data?.company||''}">
+      </div>
+      <div class="form-group">
+        <label>在籍期間</label>
+        <input type="text" class="career-period" placeholder="2018年4月〜2022年3月" value="${data?.period||''}">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>事業内容</label>
+        <input type="text" class="career-business" placeholder="ITソリューション事業" value="${data?.business||''}">
+      </div>
+      <div class="form-group">
+        <label>従業員数</label>
+        <input type="text" class="career-employees" placeholder="約500名" value="${data?.employees||''}">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>部署・配属</label>
+        <input type="text" class="career-dept" placeholder="営業部 第一課" value="${data?.dept||''}">
+      </div>
+      <div class="form-group">
+        <label>役職</label>
+        <input type="text" class="career-position" placeholder="主任" value="${data?.position||''}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>職務内容</label>
+      <textarea class="career-duties" rows="4" placeholder="・法人顧客への提案営業&#10;・新規顧客開拓（月間10社）&#10;・チームメンバー3名のマネジメント">${data?.duties||''}</textarea>
+    </div>
+  `;
+  container.appendChild(card);
+}
+
+// ---- Collect Data ----
+function collectRirekishoData() {
+  const eduRows = [];
+  document.querySelectorAll('#education-rows .dynamic-row').forEach(row => {
+    eduRows.push({
+      year: row.querySelector('.edu-year').value,
+      month: row.querySelector('.edu-month').value,
+      school: row.querySelector('.edu-school').value,
+      type: row.querySelector('.edu-type').value
+    });
+  });
+  const workRows = [];
+  document.querySelectorAll('#work-rows .dynamic-row').forEach(row => {
+    workRows.push({
+      year: row.querySelector('.work-year').value,
+      month: row.querySelector('.work-month').value,
+      company: row.querySelector('.work-company').value,
+      type: row.querySelector('.work-type').value
+    });
+  });
+  const licRows = [];
+  document.querySelectorAll('#license-rows .dynamic-row').forEach(row => {
+    licRows.push({
+      year: row.querySelector('.lic-year').value,
+      month: row.querySelector('.lic-month').value,
+      name: row.querySelector('.lic-name').value
+    });
+  });
+  const spouse = document.querySelector('input[name="r-spouse"]:checked');
+  return {
+    name: document.getElementById('r-name').value,
+    furigana: document.getElementById('r-furigana').value,
+    birthday: document.getElementById('r-birthday').value,
+    age: document.getElementById('r-age').value,
+    gender: document.getElementById('r-gender').value,
+    address: document.getElementById('r-address').value,
+    phone: document.getElementById('r-phone').value,
+    email: document.getElementById('r-email').value,
+    photo: photoDataURL,
+    education: eduRows,
+    work: workRows,
+    licenses: licRows,
+    motivation: document.getElementById('r-motivation').value,
+    wishes: document.getElementById('r-wishes').value,
+    spouse: spouse ? spouse.value : '無'
+  };
+}
+
+function collectShokumuData() {
+  const careers = [];
+  document.querySelectorAll('.career-card').forEach(card => {
+    careers.push({
+      company: card.querySelector('.career-company').value,
+      period: card.querySelector('.career-period').value,
+      business: card.querySelector('.career-business').value,
+      employees: card.querySelector('.career-employees').value,
+      dept: card.querySelector('.career-dept').value,
+      position: card.querySelector('.career-position').value,
+      duties: card.querySelector('.career-duties').value
+    });
+  });
+  return {
+    summary: document.getElementById('s-summary').value,
+    careers: careers,
+    skills: document.getElementById('s-skills').value,
+    pr: document.getElementById('s-pr').value
+  };
+}
+
+// ---- Render Rirekisho Preview (JIS format table) ----
+function renderRirekishoPreview() {
+  const d = collectRirekishoData();
+  const today = new Date();
+  const dateStr = today.getFullYear() + '年' + (today.getMonth()+1) + '月' + today.getDate() + '日現在';
+
+  let eduHtml = '';
+  d.education.forEach(e => {
+    if (e.school) {
+      eduHtml += `<tr><td class="year-col">${esc(e.year)}</td><td class="month-col">${esc(e.month)}</td><td>${esc(e.school)} ${esc(e.type)}</td></tr>`;
+    }
+  });
+  if (!eduHtml) eduHtml = '<tr><td class="year-col"></td><td class="month-col"></td><td></td></tr>';
+
+  let workHtml = '';
+  d.work.forEach(w => {
+    if (w.company) {
+      workHtml += `<tr><td class="year-col">${esc(w.year)}</td><td class="month-col">${esc(w.month)}</td><td>${esc(w.company)} ${esc(w.type)}</td></tr>`;
+    }
+  });
+  if (!workHtml) workHtml = '<tr><td class="year-col"></td><td class="month-col"></td><td></td></tr>';
+
+  let licHtml = '';
+  d.licenses.forEach(l => {
+    if (l.name) {
+      licHtml += `<tr><td class="year-col">${esc(l.year)}</td><td class="month-col">${esc(l.month)}</td><td>${esc(l.name)}</td></tr>`;
+    }
+  });
+  if (!licHtml) licHtml = '<tr><td class="year-col"></td><td class="month-col"></td><td></td></tr>';
+
+  const photoHtml = d.photo
+    ? `<img src="${d.photo}" alt="証明写真">`
+    : '<span style="color:#aaa;font-size:0.8rem;">写真</span>';
+
+  const birthdayDisplay = d.birthday ? formatJapaneseDate(d.birthday) : '';
+
+  document.getElementById('rirekisho-preview').innerHTML = `
+    <table class="rirekisho-preview">
+      <tr><td class="preview-title" colspan="4">履 歴 書</td></tr>
+      <tr><td colspan="3" style="text-align:right; border:none; font-size:0.8rem;">${dateStr}</td><td style="border:none;"></td></tr>
+      <tr>
+        <th>ふりがな</th>
+        <td colspan="2">${esc(d.furigana)}</td>
+        <td class="photo-cell" rowspan="4">${photoHtml}</td>
+      </tr>
+      <tr>
+        <th>氏名</th>
+        <td colspan="2" style="font-size:1.2rem; font-weight:700; padding:12px 10px;">${esc(d.name)}</td>
+      </tr>
+      <tr>
+        <th>生年月日</th>
+        <td colspan="2">${birthdayDisplay}${d.age ? '（' + esc(d.age) + '）' : ''} ${d.gender ? '/ ' + esc(d.gender) : ''}</td>
+      </tr>
+      <tr>
+        <th>住所</th>
+        <td colspan="2">${esc(d.address)}</td>
+      </tr>
+      <tr>
+        <th>電話番号</th>
+        <td>${esc(d.phone)}</td>
+        <th>メール</th>
+        <td style="font-size:0.8rem;">${esc(d.email)}</td>
+      </tr>
+
+      <tr><td class="section-header" colspan="4">学 歴</td></tr>
+      <tr><th>年</th><th>月</th><th colspan="2">学校名・学部</th></tr>
+      ${eduHtml.replace(/<td>([^<]*)<\/td><\/tr>/g, '<td colspan="2">$1</td></tr>')}
+
+      <tr><td class="section-header" colspan="4">職 歴</td></tr>
+      <tr><th>年</th><th>月</th><th colspan="2">会社名</th></tr>
+      ${workHtml.replace(/<td>([^<]*)<\/td><\/tr>/g, '<td colspan="2">$1</td></tr>')}
+
+      <tr><td class="section-header" colspan="4">免許・資格</td></tr>
+      <tr><th>年</th><th>月</th><th colspan="2">免許・資格名</th></tr>
+      ${licHtml.replace(/<td>([^<]*)<\/td><\/tr>/g, '<td colspan="2">$1</td></tr>')}
+
+      <tr><td class="section-header" colspan="4">志望動機</td></tr>
+      <tr><td colspan="4" style="white-space:pre-wrap; min-height:60px;">${esc(d.motivation)}</td></tr>
+
+      <tr><td class="section-header" colspan="4">本人希望欄</td></tr>
+      <tr><td colspan="4" style="white-space:pre-wrap;">${esc(d.wishes)}</td></tr>
+
+      <tr>
+        <th>配偶者の有無</th>
+        <td colspan="3">${esc(d.spouse)}</td>
+      </tr>
+    </table>
+  `;
+}
+
+// ---- Render Shokumu Preview ----
+function renderShokumuPreview() {
+  const d = collectShokumuData();
+  const today = new Date();
+  const dateStr = today.getFullYear() + '年' + (today.getMonth()+1) + '月' + today.getDate() + '日現在';
+
+  let careersHtml = '';
+  d.careers.forEach(c => {
+    if (c.company) {
+      careersHtml += `
+        <div class="company-block">
+          <h4>${esc(c.company)}</h4>
+          <div class="company-meta">
+            <strong>在籍期間:</strong> ${esc(c.period)}<br>
+            <strong>事業内容:</strong> ${esc(c.business)}<br>
+            <strong>従業員数:</strong> ${esc(c.employees)}<br>
+            <strong>部署:</strong> ${esc(c.dept)} / <strong>役職:</strong> ${esc(c.position)}
+          </div>
+          <div class="company-detail"><strong>【職務内容】</strong>\n${esc(c.duties)}</div>
+        </div>
+      `;
+    }
+  });
+
+  document.getElementById('shokumu-preview').innerHTML = `
+    <div class="shokumu-preview">
+      <h2>職 務 経 歴 書</h2>
+      <p style="text-align:right; font-size:0.85rem;">${dateStr}</p>
+
+      <h3>職務要約</h3>
+      <p style="white-space:pre-wrap;">${esc(d.summary)}</p>
+
+      <h3>職歴詳細</h3>
+      ${careersHtml || '<p style="color:#999;">職歴が入力されていません</p>'}
+
+      <h3>スキル・資格</h3>
+      <p style="white-space:pre-wrap;">${esc(d.skills)}</p>
+
+      <h3>自己PR</h3>
+      <p style="white-space:pre-wrap;">${esc(d.pr)}</p>
+    </div>
+  `;
+}
+
+// ---- PDF Generation (履歴書) ----
+function downloadRirekishoPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF('p', 'mm', 'a4');
+  const d = collectRirekishoData();
+  const today = new Date();
+  const dateStr = today.getFullYear() + '/' + (today.getMonth()+1) + '/' + today.getDate();
+
+  // Title
+  doc.setFontSize(18);
+  doc.text('Rirekisho', 105, 20, { align: 'center' });
+  doc.setFontSize(8);
+  doc.text(dateStr, 190, 15, { align: 'right' });
+
+  // Basic info table
+  doc.autoTable({
+    startY: 28,
+    theme: 'grid',
+    styles: { fontSize: 9, cellPadding: 3 },
+    headStyles: { fillColor: [240, 240, 240], textColor: [30, 30, 30], fontStyle: 'bold' },
+    columnStyles: { 0: { cellWidth: 30, fontStyle: 'bold' } },
+    body: [
+      ['Furigana', d.furigana],
+      ['Name', d.name],
+      ['Birthday', (d.birthday || '') + ' ' + (d.age || '')],
+      ['Gender', d.gender],
+      ['Address', d.address],
+      ['Phone', d.phone],
+      ['Email', d.email],
+      ['Spouse', d.spouse],
+    ]
+  });
+
+  // Education
+  let y = doc.lastAutoTable.finalY + 8;
+  doc.setFontSize(11);
+  doc.text('Education', 14, y);
+  const eduData = d.education.filter(e => e.school).map(e => [e.year, e.month, e.school + ' ' + e.type]);
+  if (eduData.length) {
+    doc.autoTable({
+      startY: y + 3,
+      theme: 'grid',
+      styles: { fontSize: 9, cellPadding: 2 },
+      head: [['Year', 'Month', 'School']],
+      headStyles: { fillColor: [240, 240, 240], textColor: [30, 30, 30] },
+      body: eduData
+    });
+    y = doc.lastAutoTable.finalY + 6;
+  } else { y += 8; }
+
+  // Work
+  doc.setFontSize(11);
+  doc.text('Work Experience', 14, y);
+  const workData = d.work.filter(w => w.company).map(w => [w.year, w.month, w.company + ' ' + w.type]);
+  if (workData.length) {
+    doc.autoTable({
+      startY: y + 3,
+      theme: 'grid',
+      styles: { fontSize: 9, cellPadding: 2 },
+      head: [['Year', 'Month', 'Company']],
+      headStyles: { fillColor: [240, 240, 240], textColor: [30, 30, 30] },
+      body: workData
+    });
+    y = doc.lastAutoTable.finalY + 6;
+  } else { y += 8; }
+
+  // Licenses
+  doc.setFontSize(11);
+  doc.text('Licenses & Certifications', 14, y);
+  const licData = d.licenses.filter(l => l.name).map(l => [l.year, l.month, l.name]);
+  if (licData.length) {
+    doc.autoTable({
+      startY: y + 3,
+      theme: 'grid',
+      styles: { fontSize: 9, cellPadding: 2 },
+      head: [['Year', 'Month', 'Name']],
+      headStyles: { fillColor: [240, 240, 240], textColor: [30, 30, 30] },
+      body: licData
+    });
+    y = doc.lastAutoTable.finalY + 6;
+  } else { y += 8; }
+
+  // Motivation
+  if (d.motivation) {
+    if (y > 250) { doc.addPage(); y = 20; }
+    doc.setFontSize(11);
+    doc.text('Motivation', 14, y);
+    doc.setFontSize(9);
+    const motLines = doc.splitTextToSize(d.motivation, 170);
+    doc.text(motLines, 14, y + 6);
+    y += 6 + motLines.length * 4.5;
+  }
+
+  // Wishes
+  if (d.wishes) {
+    if (y > 260) { doc.addPage(); y = 20; }
+    doc.setFontSize(11);
+    doc.text('Wishes', 14, y);
+    doc.setFontSize(9);
+    const wishLines = doc.splitTextToSize(d.wishes, 170);
+    doc.text(wishLines, 14, y + 6);
+  }
+
+  doc.save('rirekisho.pdf');
+}
+
+// ---- PDF Generation (職務経歴書) ----
+function downloadShokumuPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF('p', 'mm', 'a4');
+  const d = collectShokumuData();
+  const today = new Date();
+  const dateStr = today.getFullYear() + '/' + (today.getMonth()+1) + '/' + today.getDate();
+
+  doc.setFontSize(18);
+  doc.text('Shokumu Keirekisho', 105, 20, { align: 'center' });
+  doc.setFontSize(8);
+  doc.text(dateStr, 190, 15, { align: 'right' });
+
+  let y = 30;
+
+  // Summary
+  if (d.summary) {
+    doc.setFontSize(12);
+    doc.text('Summary', 14, y);
+    doc.setFontSize(9);
+    const lines = doc.splitTextToSize(d.summary, 170);
+    doc.text(lines, 14, y + 6);
+    y += 6 + lines.length * 4.5 + 6;
+  }
+
+  // Career details
+  d.careers.forEach(c => {
+    if (!c.company) return;
+    if (y > 240) { doc.addPage(); y = 20; }
+    doc.setFontSize(12);
+    doc.text(c.company, 14, y);
+    y += 5;
+    doc.setFontSize(9);
+    const meta = `Period: ${c.period}  |  Business: ${c.business}  |  Employees: ${c.employees}`;
+    doc.text(meta, 14, y); y += 4;
+    doc.text(`Dept: ${c.dept}  |  Position: ${c.position}`, 14, y); y += 5;
+    if (c.duties) {
+      const dutyLines = doc.splitTextToSize(c.duties, 170);
+      doc.text(dutyLines, 14, y);
+      y += dutyLines.length * 4.5 + 6;
+    }
+  });
+
+  // Skills
+  if (d.skills) {
+    if (y > 250) { doc.addPage(); y = 20; }
+    doc.setFontSize(12);
+    doc.text('Skills & Certifications', 14, y);
+    doc.setFontSize(9);
+    const lines = doc.splitTextToSize(d.skills, 170);
+    doc.text(lines, 14, y + 6);
+    y += 6 + lines.length * 4.5 + 6;
+  }
+
+  // PR
+  if (d.pr) {
+    if (y > 250) { doc.addPage(); y = 20; }
+    doc.setFontSize(12);
+    doc.text('Self PR', 14, y);
+    doc.setFontSize(9);
+    const lines = doc.splitTextToSize(d.pr, 170);
+    doc.text(lines, 14, y + 6);
+  }
+
+  doc.save('shokumu_keirekisho.pdf');
+}
+
+// ---- Print ----
+function printRirekisho() {
+  renderRirekishoPreview();
+  document.querySelectorAll('.form-step').forEach(s => s.classList.remove('print-active'));
+  document.querySelectorAll('#rirekisho-form .form-step')[3].classList.add('print-active');
+  window.print();
+}
+
+function printShokumu() {
+  renderShokumuPreview();
+  document.querySelectorAll('.form-step').forEach(s => s.classList.remove('print-active'));
+  document.querySelectorAll('#shokumu-form .form-step')[2].classList.add('print-active');
+  window.print();
+}
+
+// ---- Local Storage ----
+function saveToStorage() {
+  try {
+    const data = {
+      rirekisho: collectRirekishoData(),
+      shokumu: collectShokumuData(),
+      timestamp: Date.now()
+    };
+    // Don't save huge photo data every keystroke
+    delete data.rirekisho.photo;
+    localStorage.setItem('rirekisho-maker-data', JSON.stringify(data));
+    if (photoDataURL) {
+      localStorage.setItem('rirekisho-maker-photo', photoDataURL);
+    }
+    showAutosave();
+  } catch(e) { /* quota exceeded */ }
+}
+
+function loadFromStorage() {
+  try {
+    const raw = localStorage.getItem('rirekisho-maker-data');
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    const r = data.rirekisho;
+    if (r) {
+      document.getElementById('r-name').value = r.name || '';
+      document.getElementById('r-furigana').value = r.furigana || '';
+      document.getElementById('r-birthday').value = r.birthday || '';
+      document.getElementById('r-age').value = r.age || '';
+      document.getElementById('r-gender').value = r.gender || '';
+      document.getElementById('r-address').value = r.address || '';
+      document.getElementById('r-phone').value = r.phone || '';
+      document.getElementById('r-email').value = r.email || '';
+      document.getElementById('r-motivation').value = r.motivation || '';
+      document.getElementById('r-wishes').value = r.wishes || '';
+      if (r.spouse) {
+        const radio = document.querySelector(`input[name="r-spouse"][value="${r.spouse}"]`);
+        if (radio) radio.checked = true;
+      }
+      // Restore education rows
+      if (r.education && r.education.length) {
+        document.getElementById('education-rows').innerHTML = '';
+        r.education.forEach(e => addEducationRow(e));
+      }
+      if (r.work && r.work.length) {
+        document.getElementById('work-rows').innerHTML = '';
+        r.work.forEach(w => addWorkRow(w));
+      }
+      if (r.licenses && r.licenses.length) {
+        document.getElementById('license-rows').innerHTML = '';
+        r.licenses.forEach(l => addLicenseRow(l));
+      }
+    }
+    const s = data.shokumu;
+    if (s) {
+      document.getElementById('s-summary').value = s.summary || '';
+      document.getElementById('s-skills').value = s.skills || '';
+      document.getElementById('s-pr').value = s.pr || '';
+      if (s.careers && s.careers.length) {
+        document.getElementById('career-cards').innerHTML = '';
+        careerCount = 0;
+        s.careers.forEach(c => addCareerCard(c));
+      }
+    }
+    // Photo
+    const photo = localStorage.getItem('rirekisho-maker-photo');
+    if (photo) {
+      photoDataURL = photo;
+      document.getElementById('photoPreview').src = photo;
+      document.getElementById('photoPreview').style.display = 'block';
+      document.getElementById('photoPlaceholder').style.display = 'none';
+    }
+  } catch(e) { /* corrupt data */ }
+}
+
+function setupAutoSave() {
+  let timer;
+  document.addEventListener('input', function() {
+    clearTimeout(timer);
+    timer = setTimeout(saveToStorage, 1500);
+  });
+}
+
+function showAutosave() {
+  const el = document.getElementById('autosaveIndicator');
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 1500);
+}
+
+// ---- Helpers ----
+function esc(str) {
+  if (!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function formatJapaneseDate(dateStr) {
+  const d = new Date(dateStr);
+  if (isNaN(d)) return dateStr;
+  return d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日';
+}
+</script>
+
+</body>
+</html>
