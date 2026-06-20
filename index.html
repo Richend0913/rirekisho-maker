@@ -52,9 +52,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6327505164684489" crossorigin="anonymous"></script>
-
   <!-- jsPDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js"></script>
@@ -100,12 +97,6 @@
 </div>
 
 <main class="main-container">
-
-  <!-- Ad Banner Top -->
-  <div class="ad-banner">
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6327505164684489" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-  </div>
 
   <!-- Document Type Tabs -->
   <div class="doc-tabs">
@@ -180,7 +171,7 @@
                   <span class="cam-icon">&#128247;</span>
                   クリックして<br>写真をアップロード<br><small>縦4:3推奨</small>
                 </div>
-                <img id="photoPreview" style="display:none;" alt="証明写真">
+                <img id="photoPreview" style="display:none;" alt="証明写真" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
               </div>
               <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="handlePhotoUpload(event)">
             </div>
@@ -376,12 +367,6 @@
         <button class="btn btn-secondary" onclick="goToShokumuStep(2)">&#8592; 戻る</button>
       </div>
     </div>
-  </div>
-
-  <!-- Ad Banner Bottom -->
-  <div class="ad-banner" style="margin-top:24px;">
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6327505164684489" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 
 </main>
